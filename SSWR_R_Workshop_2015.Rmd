@@ -1,9 +1,12 @@
 ---
-title: "Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation in Social Work Research"
-date: "Saturday, November 01, 2014"
-output: beamer_presentation
+title: 'Using R for Analytic Graphs: Learn How Data Visualization Can Improve Interpretation
+  in Social Work Research'
+output:
+  slidy_presentation:
+    font_adjustment: 4
+  beamer_presentation: default
+date: "Saturday, January 18, 2015"
 ---
-
 
 # Why Use R?
 
@@ -39,45 +42,43 @@ Steep(er) learning curve compared to, say, Excel or SPSS. This matters a lot if
 
 1. Choose a counterfactual $x_c$.
 
-2. Estimate a model to get a vector of parameters $\hat{\boldsymbol\beta}$ and the associated variance-covariance matrix, $\hat{\boldsymbol V}$.
+2. Estimate model parameters $\hat{\boldsymbol\beta}$ and the variance-covariance matrix, $\hat{\boldsymbol V}$.
 
 3. Draw several $\tilde{\boldsymbol\beta}$ from $\mathcal{N}(\hat{\boldsymbol\beta},\,\hat{\boldsymbol V})$, where $\mathcal{N}$ is a mulivariate normal distribution. 
 
-4. Calculate expected outcomes based on model parameters for all of your draws from $\mathcal{N}$. 
+4. Calculate expected outcomes based on model parameters for all draws from $\mathcal{N}$. 
 
 5. Calculate summary statistics for each level of $x_c$.
 
-This approach will work for most of the models that social welfare researchers tend to encounter.
+This approach will work for most models that social welfare researchers use.
 
 # A Practical Example - Background
 
-## Research Question
+- Research Question: How does a child's probability of exiting foster care vary by child characteristics?
 
-How does a child's probability of exiting the foster care system vary by child characteristics?
+- Multiple Permanency Outcomes: Requires that we estimate a mulinomial logistic regression model.
 
-## Multiple Permanency Outcomes
+- Data: Children (n = 619) entering out-of-home care in late 2007. Children's parents' surveyed in 2007 and linked to administrative data to faciliate follow-up. 
 
-Requires that we estimate a mulinomial logistic regression model.
+- NOTE: These data are simulated because to protect client confidentiality. 
 
-## Data in Question 
+# A Practical Example
 
-- 619 Children entering out-of-home care in late 2007. 
+## Getting Data Into R 
 
-- Children's parent's were surveyed once in 2007. The survey results were then linked to administrative data which faciliated a longitudinal follow-up. 
+- R base can import and export spreadsheets (*.txt, *.csv) and .RData compressed files. Use the foriegn() library to load functions to import SPSS, Stata, and DBase formats.
 
-NOTE: I will simulate a data set for sharing. I cannot share the raw data. 
-
-# A practical example - Choose a counterfactual $x_c$.
-
-## Load the data 
+- R commands to import data formats include read.dta(), read.spss(), read.csv(), or read.dbf().
 
 ```{r}
 dat <- read.csv("dat.csv")
 ```
 
+-To export use the commands write.dta(), write.spss(), write.csv(), or write.dbf().
+
 # A practical example - Choose a counterfactual $x_c$.
 
-```{r, fig.width=3, fig.height=2, warning=FALSE, message=FALSE}
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
 #looking at age of child at episode begin
 require(ggplot2)
 ggplot(dat, aes(x=age_eps_begin)) + 
@@ -86,7 +87,7 @@ ggplot(dat, aes(x=age_eps_begin)) +
 
 # A practical example - Choose a counterfactual $x_c$.
 
-```{r, fig.width=6, fig.height=3, warning=FALSE, message=FALSE}
+```{r, fig.width=10, fig.height=4, warning=FALSE, message=FALSE}
 #looking at age of child at episode begin by outcome 
 ggplot(dat, aes(x=age_eps_begin, fill=outcome)) + 
   geom_histogram(binwidth = 1) +
